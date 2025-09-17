@@ -1,0 +1,7 @@
+Create project
+    -> flutter create project_name
+    -> flutter create --org com.example yourapp_project_name
+    -> delete unnecessary flavors (windows, macos, linux etc)
+
+Run project
+    -> flutter run
