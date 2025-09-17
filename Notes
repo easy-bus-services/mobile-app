@@ -5,3 +5,13 @@ Create project
 
 Run project
     -> flutter run
+
+Change App Name on device
+    https://medium.com/@vaibhavi.rana99/change-application-name-and-icon-in-flutter-bebbec297c57
+    For Android:
+        android/app/src/main/AndroidManifest.xml
+        change android:label
+    For IOS:
+        ios/Runner/Info.plist and change below
+        <key>CFBundleName</key>
+        <string>your_app_name</string>
