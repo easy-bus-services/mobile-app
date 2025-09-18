@@ -15,3 +15,13 @@ Change App Name on device
         ios/Runner/Info.plist and change below
         <key>CFBundleName</key>
         <string>your_app_name</string>
+Change App Icon on Device
+    -> flutter pub add flutter_launcher_icons
+    flutter_icons:
+        android: true
+        ios: true
+        image_path: "assets/icon/icon.png"
+    -> flutter pub run flutter_launcher_icons:main
+
+    location: ios/Runner/Assets.xcassets/AppIcon.appiconset  and android/app/src/main/res
+
