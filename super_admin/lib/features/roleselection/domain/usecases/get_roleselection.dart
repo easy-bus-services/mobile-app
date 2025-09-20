@@ -6,7 +6,17 @@ class GetRoleselection {
 
   GetRoleselection(this.repository);
 
-  Future<Roleselection> call(String id) {
-    return repository.fetchRoleselection(id);
+  Future<List<Roleselection>> call(String id) {
+    return repository.getAllRoles();
+  }
+}
+
+class GetAllRoles {
+  final RoleselectionRepository repository;
+
+  GetAllRoles(this.repository);
+
+  Future<List<Roleselection>> call() {
+    return repository.getAllRoles();
   }
 }

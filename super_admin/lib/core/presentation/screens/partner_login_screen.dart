@@ -22,7 +22,7 @@ class PartnerLoginScreenState extends State<PartnerLoginScreen> {
     _loadUserRole();
   }
   Future<void> _loadUserRole() async {
-    String? cacheRole = await _cacheService.getStringValue(cacheKeyRole);
+    String? cacheRole = await _cacheService.getStringValue(AppConstants.cacheKeyRole);
     setState(() {
       role = cacheRole;
       print(role);

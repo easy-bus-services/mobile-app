@@ -12,7 +12,7 @@ sealed class RoleselectionState {}
 class RoleselectionInitial extends RoleselectionState {}
 class RoleselectionLoading extends RoleselectionState {}
 class RoleselectionLoaded extends RoleselectionState {
-  final Roleselection data;
+  final List<Roleselection> data;
   RoleselectionLoaded(this.data);
 }
 class RoleselectionError extends RoleselectionState {

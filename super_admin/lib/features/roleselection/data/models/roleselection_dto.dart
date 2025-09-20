@@ -1,13 +1,14 @@
 import '../../domain/entities/roleselection.dart';
 
 class RoleselectionDto {
-  final String id;
+    final int roleId;
+    final String roleName;
 
-  RoleselectionDto({required this.id});
+  RoleselectionDto({required this.roleId, required this.roleName});
 
   factory RoleselectionDto.fromJson(Map<String, dynamic> json) {
-    return RoleselectionDto(id: json['id']);
+    return RoleselectionDto(roleId: json['roleId'], roleName: json['roleName']);
   }
 
-  Roleselection toEntity() => Roleselection(id: id);
+  Roleselection toEntity() => Roleselection(roleId: roleId, roleName: roleName);
 }

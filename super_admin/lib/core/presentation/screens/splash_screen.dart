@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:super_admin/core/presentation/screens/role_selection_screen.dart';
-import 'package:super_admin/features/auth/auth_module.dart';
 import 'package:super_admin/features/roleselection/presentation/screens/roleselection_screen.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -31,6 +28,7 @@ class SplashScreenState extends State<SplashScreen> {
             context,
             MaterialPageRoute(builder: (context) => RoleselectionScreen()), // Replace MainScreen with your actual main screen
           );
+          
         }
       });
     });

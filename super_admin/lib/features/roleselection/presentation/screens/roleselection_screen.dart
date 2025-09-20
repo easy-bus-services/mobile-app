@@ -6,6 +6,7 @@ import 'package:super_admin/core/presentation/screens/partner_login_screen.dart'
 import 'package:super_admin/core/presentation/widgets/my_elevated_button.dart';
 import 'package:super_admin/core/presentation/widgets/my_text.dart';
 import 'package:super_admin/core/services/cache_service.dart';
+import 'package:super_admin/features/roleselection/presentation/bloc/bloc/get_all_roles_bloc.dart';
 import '../bloc/roleselection_bloc.dart';
 import '../../../../di/service_locator.dart' as di;
 
@@ -19,16 +20,28 @@ class MyObject {
   MyObject({required this.title, required this.onPressed, this.backgroundColor, this.foregroundColor});
 }
 
+class RoleselectionScreen extends StatefulWidget {
+  const RoleselectionScreen({super.key});
 
-class RoleselectionScreen extends StatelessWidget {
-  RoleselectionScreen({super.key});
+  @override
+  RoleselectionScreenState createState () =>  RoleselectionScreenState();
+}
+class RoleselectionScreenState extends State<RoleselectionScreen>{
   final CacheService _cacheService=CacheService();
+  
+  @override
+  void initState() {
+   context.read<GetAllRolesBloc>().add(LoadAllRolesEvent());
+    super.initState();
+  }
+
   Future<void> setRole(String role) async {
-    await _cacheService.setValue(cacheKeyRole, role, CacheEnums.string);
+    await _cacheService.setValue(AppConstants.cacheKeyRole, role, CacheEnums.string);
   }
 
   @override
   Widget build(BuildContext context) {
+     
      final List<MyObject> myObjects = [
       MyObject(title: 'Super Admin', backgroundColor: Colors.deepPurple[300] ,onPressed: () {
         setRole('Super Admin');
@@ -67,20 +80,28 @@ class RoleselectionScreen extends StatelessWidget {
       }),
     ];
    
-    return  BlocProvider(
-      create: (_) => di.sl<RoleselectionBloc>(), 
-      child: Scaffold(
-        body: BlocBuilder<RoleselectionBloc, RoleselectionState>(
-          builder: (context, state) {
-            if (state is RoleselectionLoading) {
+    return  Scaffold(
+              body:SafeArea(
+                child: BlocConsumer<GetAllRolesBloc,GetAllRolesState>(
+      listener: (context,state) {
+
+      }, 
+      builder: (context,state) {
+            if (state is GetAllRolesLoading) {
+              
+              print("GetAllRolesLoading");
               return const Center(child: CircularProgressIndicator());
-            } else if (state is RoleselectionLoaded) {
-              return Center(child: Text("Loaded: ${state.data.id}"));
-            } else if (state is RoleselectionError) {
+            } 
+            else if (state is GetAllRolesError) {
+              print("GetAllRolesError");
               return Center(child: Text(state.message));
             }
-            return SafeArea(
-              child: Center(
+            else if (state is GetAllRolesLoaded) {
+              print("GetAllRolesLoaded---");
+              print(state.data);
+              print("GetAllRolesLoaded----");
+              //return Center(child: Text("Loaded:"));
+              return Center(
                 child:  Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,34 +114,40 @@ class RoleselectionScreen extends StatelessWidget {
                         color: const Color.fromARGB(255, 129, 126, 126),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Center(
                       child: Column(
-                        children: myObjects.map((object) {
+                        children: state.data.map((object) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column( 
                               children:<Widget>[
                                   MyElevatedButton(
-                                    onPressed: object.onPressed,
-                                    text: object.title,
+                                    onPressed: () {
+                                      print(object.roleId);
+                                      print(object.roleName);
+                                    },
+                                    text: object.roleName,
                                     size:Size((MediaQuery.of(context).size.width - 60), 50),
-                                    fontSize: 10,
-                                    backgroundColor: object.backgroundColor,
+                                    fontSize: 15,
+                                    backgroundColor: Colors.deepPurple[300],
                                   ),                      
                                   const SizedBox(height: 5),
                               ]
                             )
                             );
                           }).toList(),
-                      ),
+                      )
                     ),
                   ]
                   )
-                )
-            );
-          },
-        ),
+              );
+            }
+            else {
+              return Center(child: Text("Something Went wrong. Please try again."));
+            }
+          }
+        )
       )
     );
   }

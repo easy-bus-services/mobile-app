@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:super_admin/core/constants/app_constants.dart';
+import 'package:super_admin/core/network/interceptors/auth_interceptor.dart';
 
 class ApiClient {
   final Dio dio;
 
-  ApiClient({String baseUrl = "http://184.168.126.83:8080/backend/api/"})
+  ApiClient({String baseUrl = ApiConstants.baseUrl})
       : dio = Dio(BaseOptions(
           baseUrl: baseUrl,
           connectTimeout: const Duration(seconds: 1000),
@@ -14,5 +16,6 @@ class ApiClient {
       requestBody: true,
       responseBody: true,
     ));
+    dio.interceptors.add(AuthInterceptor(dio: dio));
   }
 }

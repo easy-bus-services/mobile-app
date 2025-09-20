@@ -20,7 +20,7 @@ class RoleSelectionScreen extends StatelessWidget {
   RoleSelectionScreen({super.key});
   final CacheService _cacheService=CacheService();
   Future<void> setRole(String role) async {
-    await _cacheService.setValue(cacheKeyRole, role, CacheEnums.string);
+    await _cacheService.setValue(AppConstants.cacheKeyRole, role, CacheEnums.string);
   }
 
   @override
