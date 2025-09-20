@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:super_admin/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:super_admin/features/auth/presentation/screens/auth_screen.dart';
-import 'di/service_locator.dart' as di;
+import 'package:super_admin/core/presentation/screens/splash_screen.dart';
 
 
 class EasyBusApp extends StatelessWidget {
@@ -11,11 +8,9 @@ class EasyBusApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Enterprise Flutter",
-      home: BlocProvider(
-        create: (_) => di.sl<AuthBloc>(),
-        child: const AuthScreen(),
-      ),
+      title: "Easy Bus Booking",
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen()
     );
   }
 }
