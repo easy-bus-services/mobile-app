@@ -4,15 +4,14 @@ import '../../domain/usecases/get_roles_selection.dart';
 
 sealed class RolesSelectionEvent {}
 class LoadRolesSelectionEvent extends RolesSelectionEvent {
-  final String id;
-  LoadRolesSelectionEvent(this.id);
+  LoadRolesSelectionEvent();
 }
 
 sealed class RolesSelectionState {}
 class RolesSelectionInitial extends RolesSelectionState {}
 class RolesSelectionLoading extends RolesSelectionState {}
 class RolesSelectionLoaded extends RolesSelectionState {
-  final RolesSelection data;
+  final List<RolesSelection> data;
   RolesSelectionLoaded(this.data);
 }
 class RolesSelectionError extends RolesSelectionState {
@@ -27,7 +26,7 @@ class RolesSelectionBloc extends Bloc<RolesSelectionEvent, RolesSelectionState> 
     on<LoadRolesSelectionEvent>((event, emit) async {
       emit(RolesSelectionLoading());
       try {
-        final data = await getRolesSelection(event.id);
+        final data = await getRolesSelection();
         emit(RolesSelectionLoaded(data));
       } catch (_) {
         emit(RolesSelectionError("Failed to load roles_selection"));

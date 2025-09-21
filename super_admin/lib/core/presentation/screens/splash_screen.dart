@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:super_admin/features/roles_selection/presentation/screens/roles_selection_screen.dart';
 import 'dart:async';
-import 'package:super_admin/features/roleselection/presentation/screens/roleselection_screen.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
   @override
