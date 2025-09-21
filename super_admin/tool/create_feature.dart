@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:change_case/change_case.dart';
+
 void main(List<String> args) {
   if (args.isEmpty) {
     print("❌ Usage: dart run tool/create_feature.dart <feature_name>");
@@ -7,8 +9,7 @@ void main(List<String> args) {
   }
 
   final featureName = args[0].toLowerCase();
-  final className =
-      featureName[0].toUpperCase() + featureName.substring(1); // e.g. Auth
+  final className = featureName.toPascalCase(); // e.g. Auth
   final featurePath = "lib/features/$featureName";
 
   final dirs = [
@@ -141,13 +142,16 @@ class ${className}Bloc extends Bloc<${className}Event, ${className}State> {
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/${featureName}_bloc.dart';
+import '../../../../di/service_locator.dart' as di;
 
 class ${className}Screen extends StatelessWidget {
   const ${className}Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+      create: (context) => di.sl<${className}Bloc>(),
+      child: Scaffold(
       appBar: AppBar(title: const Text("$className Screen")),
       body: BlocBuilder<${className}Bloc, ${className}State>(
         builder: (context, state) {
@@ -167,6 +171,7 @@ class ${className}Screen extends StatelessWidget {
             ),
           );
         },
+      ),
       ),
     );
   }

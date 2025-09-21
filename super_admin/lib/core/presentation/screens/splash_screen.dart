@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_admin/features/roles_selection/presentation/screens/roles_selection_screen.dart';
 import 'dart:async';
 import 'package:super_admin/features/roleselection/presentation/screens/roleselection_screen.dart';
 class SplashScreen extends StatefulWidget {
@@ -26,7 +27,7 @@ class SplashScreenState extends State<SplashScreen> {
           // Navigate to main screen after splash is complete
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => RoleselectionScreen()), // Replace MainScreen with your actual main screen
+            MaterialPageRoute(builder: (context) => RolesSelectionScreen()), // Replace MainScreen with your actual main screen
           );
           
         }

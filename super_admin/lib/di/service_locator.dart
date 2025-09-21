@@ -2,6 +2,10 @@ import 'package:get_it/get_it.dart';
 import 'package:super_admin/core/network/api_client.dart';
 import 'package:super_admin/features/auth/domain/repositories/auth_repository.dart';
 import 'package:super_admin/features/auth/domain/usecases/get_auth.dart';
+import 'package:super_admin/features/roles_selection/data/repositories/roles_selection_repository_impl.dart';
+import 'package:super_admin/features/roles_selection/domain/repositories/roles_selection_repository.dart';
+import 'package:super_admin/features/roles_selection/domain/usecases/get_roles_selection.dart';
+import 'package:super_admin/features/roles_selection/presentation/bloc/roles_selection_bloc.dart';
 import 'package:super_admin/features/roleselection/data/repositories/roleselection_repository_impl.dart';
 import 'package:super_admin/features/roleselection/domain/repositories/roleselection_repository.dart';
 import 'package:super_admin/features/roleselection/domain/usecases/get_roleselection.dart';
@@ -13,6 +17,12 @@ import '../features/auth/presentation/bloc/auth_bloc.dart';
 final sl = GetIt.instance;
 
 void initDependencies() {
+
+  // roles_selection feature
+  sl.registerLazySingleton<RolesSelectionRepository>(() => RolesSelectionRepositoryImpl());
+  sl.registerFactory(() => GetRolesSelection(sl()));
+  sl.registerFactory(() => RolesSelectionBloc(sl()));
+
   // roleselection feature
   sl.registerLazySingleton<RoleselectionRepository>(() => RoleselectionRepositoryImpl(sl()));
   sl.registerFactory(() => GetRoleselection(sl()));
