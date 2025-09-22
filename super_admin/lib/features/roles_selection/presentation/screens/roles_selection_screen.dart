@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:super_admin/config/router_config.dart';
 import 'package:super_admin/core/constants/app_constants.dart';
 import 'package:super_admin/core/enums/cache_enum.dart';
 import 'package:super_admin/core/presentation/screens/partner_login_screen.dart';
@@ -11,11 +13,10 @@ import '../bloc/roles_selection_bloc.dart';
 import '../../../../di/service_locator.dart' as di;
 
 class RolesSelectionScreen extends StatelessWidget {
-  RolesSelectionScreen({super.key});
-  final CacheService _cacheService=CacheService();
+  const RolesSelectionScreen({super.key});
   
   Future<void> setRole(String role) async {
-    await _cacheService.setValue(AppConstants.cacheKeyRole, role, CacheEnums.string);
+    await CacheService.setValue(AppConstants.cacheKeyRole, role, CacheEnums.string);
   }
   
   @override
@@ -26,7 +27,7 @@ class RolesSelectionScreen extends StatelessWidget {
         appBar: AppBar(title: const Text("RolesSelection Screen")),
         body: BlocBuilder<RolesSelectionBloc, RolesSelectionState>(
           builder: (context, state) {
-            if(state is RolesSelectionInitial){
+            if(state is RolesSelectionInitial) {
               context.read<RolesSelectionBloc>().add(LoadRolesSelectionEvent());
                print("RolesSelectionInitial");   
               return const Center(child: CircularProgressIndicator());
@@ -70,10 +71,7 @@ class RolesSelectionScreen extends StatelessWidget {
                                       setRole(object.roleName);
                                       print(object.roleId);
                                       print(object.roleName);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => PartnerLoginScreen()), // Replace MainScreen with your actual main screen
-                                      );
+                                      GoRouter.of(context).push(AppRoutes.partnersLoginScreen);
                                     },
                                     text: object.roleName,
                                     size:Size((MediaQuery.of(context).size.width - 60), 50),

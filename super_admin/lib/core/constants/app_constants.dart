@@ -10,4 +10,5 @@ class AppConstants {
   static const String appName = 'My Flutter App';
   static const int defaultPageSize = 10;
   static const String cacheKeyRole='role';
+  static const String cacheKeyLogin='login';
 }

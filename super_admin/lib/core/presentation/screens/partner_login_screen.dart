@@ -1,6 +1,9 @@
 // Example MainScreen (replace with your actual main screen)
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:super_admin/config/router_config.dart';
 import 'package:super_admin/core/constants/app_constants.dart';
+import 'package:super_admin/core/enums/cache_enum.dart';
 import 'package:super_admin/core/presentation/screens/dashboard_screen.dart';
 import 'package:super_admin/core/presentation/widgets/my_elevated_button.dart';
 import 'package:super_admin/core/presentation/widgets/my_text.dart';
@@ -14,20 +17,22 @@ class PartnerLoginScreen extends StatefulWidget {
 
 class PartnerLoginScreenState extends State<PartnerLoginScreen> {
   String role='';
-  final CacheService _cacheService = CacheService();
-
   @override
   void initState() {
     super.initState();
     _loadUserRole();
   }
   Future<void> _loadUserRole() async {
-    String? cacheRole = await _cacheService.getStringValue(AppConstants.cacheKeyRole);
+    String? cacheRole = await CacheService.getStringValue(AppConstants.cacheKeyRole);
     setState(() {
       role = cacheRole;
       print(role);
     });
   }
+  Future<void> setLogin(bool isLoggedIn) async {
+    await CacheService.setValue(AppConstants.cacheKeyLogin, isLoggedIn, CacheEnums.bool);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,11 +83,9 @@ class PartnerLoginScreenState extends State<PartnerLoginScreen> {
               ),
               const SizedBox(height: 15),
               MyElevatedButton(
-                onPressed: () {
-                   Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DashboardScreen()), // Replace MainScreen with your actual main screen
-                    );
+                onPressed: () async {  
+                  setLogin(true);               
+                  GoRouter.of(context).push(AppRoutes.dashboardScreen);
                 },
                 text: 'Login',
                 size:Size((MediaQuery.of(context).size.width - 50), 50),
