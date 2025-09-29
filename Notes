@@ -110,7 +110,7 @@ Project Structure:
         import 'dart:io';
         void main(List<String> args) {
         if (args.isEmpty) {
-            print("❌ Usage: dart run tool/create_feature.dart <feature_name>");
+             _logger?.i("❌ Usage: dart run tool/create_feature.dart <feature_name>");
             exit(1);
         }
 
@@ -309,13 +309,13 @@ Project Structure:
         ''',
             );
             diFile.writeAsStringSync(newContent);
-            print("🔗 Updated service_locator.dart with $featureName dependencies.");
+             _logger?.i("🔗 Updated service_locator.dart with $featureName dependencies.");
             }
         } else {
-            print("⚠️ service_locator.dart not found. Skipping DI update.");
+             _logger?.i("⚠️ service_locator.dart not found. Skipping DI update.");
         }
 
-        print("✅ Feature '$featureName' created with boilerplate + DI registration!");
+         _logger?.i("✅ Feature '$featureName' created with boilerplate + DI registration!");
         }
     Run Above script: dart run tool/create_feature.dart profile
     Bloc installation: flutter pub add flutter_bloc , flutter pub add get_it

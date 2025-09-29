@@ -3,6 +3,7 @@ class ApiConstants {
   static const String apiKey = 'YOUR_API_KEY_HERE'; // Consider using environment variables for sensitive data
 
   static const String getAllRoles = 'roles/getroles';
+  static const String deleteRole = 'roles/';
   static const String usersEndpoint = '/users';
 }
 

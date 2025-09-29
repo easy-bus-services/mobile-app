@@ -2,10 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:super_admin/core/constants/app_constants.dart';
 import 'package:super_admin/core/enums/cache_enum.dart';
+import 'package:super_admin/core/enums/widget_enums.dart';
 import 'package:super_admin/core/presentation/screens/partner_login_screen.dart';
-import 'package:super_admin/core/presentation/widgets/my_elevated_button.dart';
-import 'package:super_admin/core/presentation/widgets/my_text.dart';
+import 'package:super_admin/core/presentation/widgets/my_button.dart';
 import 'package:super_admin/core/services/cache_service.dart';
+import 'package:super_admin/core/presentation/common_widgets/common_text_widgets.dart';
 
 class MyObject {
   final String title;
@@ -17,8 +18,7 @@ class MyObject {
 }
 
 class RoleSelectionScreen extends StatelessWidget {
-  RoleSelectionScreen({super.key});
-  final CacheService _cacheService=CacheService();
+  const RoleSelectionScreen({super.key});
   Future<void> setRole(String role) async {
     await CacheService.setValue(AppConstants.cacheKeyRole, role, CacheEnums.string);
   }
@@ -69,14 +69,7 @@ class RoleSelectionScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const MyText(
-                'Login As',
-                style: TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 129, 126, 126),
-                ),
-              ),
+              CommonTextWidgets(type:WidgetTextEnum.heading1, text:'Login As'),
               SizedBox(height: 20),
               Center(
                 child: Column(
@@ -85,12 +78,9 @@ class RoleSelectionScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column( 
                         children:<Widget>[
-                            MyElevatedButton(
+                            MyButton(
                               onPressed: object.onPressed,
-                              text: object.title,
-                              size:Size((MediaQuery.of(context).size.width - 60), 50),
-                              fontSize: 10,
-                              backgroundColor: object.backgroundColor,
+                              text: object.title
                             ),                      
                             const SizedBox(height: 5),
                         ]

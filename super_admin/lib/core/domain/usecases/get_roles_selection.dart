@@ -10,3 +10,12 @@ class GetRolesSelection {
     return repository.fetchRoles();
   }
 }
+class DeleteRoles {
+  final RolesSelectionRepository repository;
+
+  DeleteRoles(this.repository);
+
+  Future<RolesSelection> call(int id) {
+    return repository.deleteRole(id);
+  }
+}

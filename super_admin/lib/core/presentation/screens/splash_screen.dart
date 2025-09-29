@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:super_admin/config/router_config.dart';
-import 'package:super_admin/features/roles_selection/presentation/screens/roles_selection_screen.dart';
 import 'dart:async';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

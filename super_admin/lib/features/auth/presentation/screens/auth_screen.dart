@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:super_admin/features/auth/domain/repositories/auth_repository.dart';
 import '../bloc/auth_bloc.dart';
 import '../../../../di/service_locator.dart' as di;
 class AuthScreen extends StatelessWidget {

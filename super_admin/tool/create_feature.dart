@@ -1,10 +1,20 @@
 import 'dart:io';
 
 import 'package:change_case/change_case.dart';
+import 'package:logger/logger.dart';
+import 'package:path_provider/path_provider.dart';
+Logger? _logger;
+void main(List<String> args) async {
+  final directory = await getApplicationDocumentsDirectory();
+  final logFile = File('${directory.path}/app_log.txt');
 
-void main(List<String> args) {
+  _logger = Logger(
+    printer: PrettyPrinter(), // Or any other printer
+    output: FileOutput(file:logFile),
+    level: Level.all, // Set desired log level
+  );
   if (args.isEmpty) {
-    print("❌ Usage: dart run tool/create_feature.dart <feature_name>");
+     _logger?.i("❌ Usage: dart run tool/create_feature.dart <feature_name>");
     exit(1);
   }
 
@@ -28,7 +38,7 @@ void main(List<String> args) {
   }
 
   // --- Domain Layer ---
-  File("$featurePath/domain/entities/${featureName}.dart").writeAsStringSync('''
+  File("$featurePath/domain/entities/$featureName.dart").writeAsStringSync('''
 class $className {
   final String id;
 
@@ -38,16 +48,16 @@ class $className {
 
   File("$featurePath/domain/repositories/${featureName}_repository.dart")
       .writeAsStringSync('''
-import '../entities/${featureName}.dart';
+import '../entities/$featureName.dart';
 
 abstract class ${className}Repository {
   Future<$className> fetch$className(String id);
 }
 ''');
 
-  File("$featurePath/domain/usecases/get_${featureName}.dart")
+  File("$featurePath/domain/usecases/get_$featureName.dart")
       .writeAsStringSync('''
-import '../entities/${featureName}.dart';
+import '../entities/$featureName.dart';
 import '../repositories/${featureName}_repository.dart';
 
 class Get$className {
@@ -64,7 +74,7 @@ class Get$className {
   // --- Data Layer ---
   File("$featurePath/data/models/${featureName}_dto.dart")
       .writeAsStringSync('''
-import '../../domain/entities/${featureName}.dart';
+import '../../domain/entities/$featureName.dart';
 
 class ${className}Dto {
   final String id;
@@ -81,7 +91,7 @@ class ${className}Dto {
 
   File("$featurePath/data/repositories/${featureName}_repository_impl.dart")
       .writeAsStringSync('''
-import '../../domain/entities/${featureName}.dart';
+import '../../domain/entities/$featureName.dart';
 import '../../domain/repositories/${featureName}_repository.dart';
 import '../models/${featureName}_dto.dart';
 
@@ -99,8 +109,8 @@ class ${className}RepositoryImpl implements ${className}Repository {
   File("$featurePath/presentation/bloc/${featureName}_bloc.dart")
       .writeAsStringSync('''
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/${featureName}.dart';
-import '../../domain/usecases/get_${featureName}.dart';
+import '../../domain/entities/$featureName.dart';
+import '../../domain/usecases/get_$featureName.dart';
 
 sealed class ${className}Event {}
 class Load${className}Event extends ${className}Event {
@@ -184,7 +194,7 @@ library ${featureName}_module;
 
 // Exports for DI setup
 export 'data/repositories/${featureName}_repository_impl.dart';
-export 'domain/usecases/get_${featureName}.dart';
+export 'domain/usecases/get_$featureName.dart';
 export 'presentation/bloc/${featureName}_bloc.dart';
 export 'presentation/screens/${featureName}_screen.dart';
 ''');
@@ -206,11 +216,11 @@ void initDependencies() {
 ''',
       );
       diFile.writeAsStringSync(newContent);
-      print("🔗 Updated service_locator.dart with $featureName dependencies.");
+       _logger?.i("🔗 Updated service_locator.dart with $featureName dependencies.");
     }
   } else {
-    print("⚠️ service_locator.dart not found. Skipping DI update.");
+     _logger?.i("⚠️ service_locator.dart not found. Skipping DI update.");
   }
 
-  print("✅ Feature '$featureName' created with boilerplate + DI registration!");
+   _logger?.i("✅ Feature '$featureName' created with boilerplate + DI registration!");
 }
